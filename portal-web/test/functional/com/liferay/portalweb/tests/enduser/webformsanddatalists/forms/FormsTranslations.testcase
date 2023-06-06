@@ -172,7 +172,7 @@ definition {
 			configurationName = "Language",
 			configurationScope = "Virtual Instance Scope");
 
-		PortalSettings.configureCurrentLanguagesCP(defaultPortalLanguage = "Spanish (Spain)");
+		PortalSettings.configureCurrentLanguagesCP(defaultPortalLanguage = "English ()");
 
 		FormsAdmin.addForm();
 

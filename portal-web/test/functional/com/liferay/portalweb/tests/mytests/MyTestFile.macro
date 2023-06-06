@@ -1,0 +1,12 @@
+definition {
+    macro searchForTerm {
+		Click(
+				locator1 = "MyTestFile#BUTTON_OF_MENU");
+
+		Click(
+				locator1 = "MyTestFile#BUTTON_CONTROL_PANEL");
+
+		AssertElementPresent(
+				locator1 = "MyTestFile#CHECK_CONFIGURATION");
+	}
+}

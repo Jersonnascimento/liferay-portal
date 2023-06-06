@@ -1,0 +1,111 @@
+@component-name = "portal-web-forms-and-data-lists"
+definition {
+property testray.main.component.name = "Forms";
+setUp {
+TestCase.setUpPortalInstance();
+User.firstLoginPG();
+Navigator.openURL();
+}
+tearDown {
+User.logoutAndLoginPG(
+userLoginEmailAddress = "test@liferay.com",
+userLoginFullName = "Test Test");
+}
+@description = "Access Portal Global Menu and validate CONFIGURATION string at Control Panel"
+@priority = "5"
+test ValidateConfigurationStringAtControlPanel {
+    MyTestFile.searchForTerm();
+}
+@description = "Set Screen size to custom and validate values"
+@priority = "5"
+test SetScreenSizeAndValidateValues {
+    FormsAdmin.addForm();
+    Form.gotoAddField(
+			fieldPositionNumber = 0,
+			fieldType = "Text");
+             Form.editFieldLabelMetal(fieldValue = "Full Name");
+
+    var fieldTextField = FormFields.getFieldName();
+
+    Form.closeSidebar();
+   
+    Form.gotoAddField(
+			fieldPositionNumber = 1,
+			fieldType = "Numeric");
+            Form.editFieldLabelMetal(fieldValue = "Age");
+
+    Form.addTranslation(localizedLanguage = "Portuguese (Brazil)");
+
+    Click(
+			key_name = "Full Name",
+			locator1 = "FormFields#FIELD_TARGET_LABEL");
+
+    Form.editFieldLabelMetal(fieldValue = "Nome Completo");
+    
+    Click(
+			key_name = "Age",
+			locator1 = "FormFields#FIELD_TARGET_LABEL");
+
+    Form.editFieldLabelMetal(fieldValue = "Idade");
+
+    Form.save();
+
+    Form.publishForm();
+
+    FormsAdminNavigator.gotoPublishedForm();
+
+    FormFields.viewTextLabel(
+			fieldLabel = "Full Name",
+			fieldName = ${fieldTextField});
+
+    FormFields.editText(
+			fieldName = ${fieldTextField},
+			fieldValue = "Jerson");
+
+    
+    FormFields.editText(
+			fieldName = "Age",
+			fieldValue = 20);
+
+    FormPortlet.clickSubmit();
+
+    Form.submitAgain();
+
+    FormViewBuilder.changeAppLanguageTo(changeAppLanguageTo = "en-US");
+
+    Pause(locator1 = 2000);
+
+	FormViewBuilder.changeAppLanguageTo(changeAppLanguageTo = "português-Brasil");
+
+    Pause(locator1 = 2000);
+
+    FormFields.viewTextLabel(
+			fieldLabel = "Nome Completo",
+			fieldName = ${fieldTextField});
+
+    FormFields.editText(
+			fieldName = ${fieldTextField},
+			fieldValue = "Francisco");
+    
+    FormFields.editText(
+			fieldName = "Idade",
+			fieldValue = 55);
+
+    FormPortlet.clickSubmit();
+
+    Form.submitAgain();
+
+    Navigator.openURL();
+
+    ProductMenu.gotoPortlet(
+			category = "Content & Data",
+			portlet = "Forms");
+
+    FormsAdminNavigator.gotoViewEntries();
+
+    FormsAdmin.viewFormTableEntry(
+			fieldLabel = "Jerson",
+			fieldValue = "Francisco");
+
+}
+}

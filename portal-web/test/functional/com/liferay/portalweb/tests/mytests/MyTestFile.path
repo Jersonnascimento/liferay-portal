@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>MyTestFile</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">MyTestFile</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>BUTTON_OF_MENU</td>
+	<td>//button[contains(@class, 'btn btn-monospaced btn-sm btn-unstyled')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>BUTTON_CONTROL_PANEL</td>
+	<td>//span[(text()="Control Panel")]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CHECK_CONFIGURATION</td>
+	<td>//div[@class='col-md']//h2[@id='nav_control_panel.configuration']</td>
+	<td></td>
+</tr>
+</tbody>
+
+</table>
+</body>
+</html>
