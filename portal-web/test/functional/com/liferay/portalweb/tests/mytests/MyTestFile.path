@@ -20,73 +20,59 @@
 	<td>//button[@class='nav-link btn btn-unstyled' and child::span[text()='Control Panel']]</td>
 	<td></td>
 </tr>
-
 <tr>
 	<td>ELEMENT_PRESENT</td>
 	<td>//div[@class= 'col-md']//h2[@id= 'nav_control_panel.configuration']</td>
 	<td></td>
 </tr>
-
 <tr>
 	<td>APLICATION_MENU_TITLES</td>
 	<td>//div[contains(@class,'applications-menu-nav-columns')]//div[contains(.,'${title_name}')]</td>
 	<td></td>
 </tr>
-
 <tr>
 	<td>BUTTON_SIMULATION</td>
 	<td>//button[@class= 'btn btn-monospaced btn-sm lfr-portal-tooltip overflow-hidden product-menu-toggle sidenav-toggler']</td>
 	<td></td>
 </tr>
-
 <tr>
 	<td>BUTTON_CUSTOM</td>
 	<td>//button[@class='col-4 size-button text-center d-lg-block d-none btn btn-unstyled' and child::span[text()='Custom']]</td>
 	<td></td>
 </tr>
-
 <tr>
 	<td>TODEFINE_HEIGHT</td>
 	<td>//div[@class= "form-group"]</td>
 	<td></td>
 </tr>
-
-
 <tr>
 	<td>HEIGHT_VALUE</td>
 	<td>//input[@id= "_com_liferay_product_navigation_simulation_web_portlet_SimulationPortlet_height"]</td>
 	<td></td>
 </tr>
-
 <tr>
 	<td>SELECT_WIDTH</td>
 	<td>//input[@id= "_com_liferay_product_navigation_simulation_web_portlet_SimulationPortlet_width"]</td>
 	<td></td>
 </tr>
-
 <tr>
 	<td>CLICK_BUTTONAPPLY</td>
 	<td>//button[@class= "w-100 btn btn-secondary"]</td>
 	<td></td>
 </tr>
-
 <tr>
 	<td>CLOSE_SIMULATION</td>
 	<td>//button[@class= "btn btn-monospaced btn-unstyled close sidenav-close"]</td>
 	<td></td>
 </tr>
-
 <tr>
 	<td>CHANGES_PRESENT</td>
 	<td>//div[@class= 'mt-3 alert alert-info']</td>
 	<td></td>
 </tr>
 
-
-
 </tbody>
 
 </table>
 </body>
 </html>
-

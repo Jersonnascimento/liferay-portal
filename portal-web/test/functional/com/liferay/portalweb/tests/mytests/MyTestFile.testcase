@@ -1,104 +1,92 @@
 @component-name = "portal-web-forms-and-data-lists"
 definition {
-    property testray.main.component.name = "Forms";
 
-    setUp {
-        TestCase.setUpPortalInstance();
+	property testray.main.component.name = "Forms";
 
-        User.firstLoginPG();
+	setUp {
+		TestCase.setUpPortalInstance();
 
-        Navigator.openURL();
-    }
+		User.firstLoginPG();
 
-    tearDown {
-        User.logoutAndLoginPG(
-            userLoginEmailAddress = "test@liferay.com",
-            userLoginFullName = "Test Test");
-    }
+		Navigator.openURL();
+	}
 
-    @description = "Access Portal Global Menu and validate CONFIGURATION string at Control Panel"
-    @priority = "5"
-    test ValidateConfigurationStringAtControlPanel {
+	tearDown {
+		User.logoutAndLoginPG(
+			userLoginEmailAddress = "test@liferay.com",
+			userLoginFullName = "Test Test");
+	}
 
+	@description = "Set Screen size to custom and validate values"
+	@priority = 5
+	test SetScreenSizeAndValidateValues {
+		Click(locator1 = "MyTestFile#BUTTON_SIMULATION");
 
-    MyTestFile.clickWithPresentElement(elementName="Configuration");
+		Click(locator1 = "MyTestFile#BUTTON_CUSTOM");
 
-    }
+		Click(locator1 = "MyTestFile#TODEFINE_HEIGHT");
 
-    @description = "Set Screen size to custom and validate values"
-    @priority = "5"
-    test SetScreenSizeAndValidateValues {
+		WaitForElementPresent(locator1 = "MyTestFile#TODEFINE_HEIGHT");
 
+		Click(locator1 = "MyTestFile#TODEFINE_HEIGHT");
 
-    Click(locator1 = "MyTestFile#BUTTON_SIMULATION");
-
-    Click(locator1 = "MyTestFile#BUTTON_CUSTOM");
-
-    Click(locator1 = "MyTestFile#TODEFINE_HEIGHT");
-
-	WaitForElementPresent(locator1 = "MyTestFile#TODEFINE_HEIGHT");
-
-	Click(locator1 = "MyTestFile#TODEFINE_HEIGHT");
-
-	Type(
+		Type(
 			locator1 = "MyTestFile#HEIGHT_VALUE",
-			value1 = "1");
+			value1 = 1);
 
-    
-    KeyPress(
+		KeyPress(
 			locator1 = "MyTestFile#HEIGHT_VALUE",
 			value1 = "\LEFT");
 
-
-    KeyPress(
+		KeyPress(
 			locator1 = "MyTestFile#HEIGHT_VALUE",
 			value1 = "\LEFT");
 
-    
-    KeyPress(
+		KeyPress(
 			locator1 = "MyTestFile#HEIGHT_VALUE",
 			value1 = "\DELETE");
 
-    Type(
+		Type(
 			key_pageNumber = 1,
 			locator1 = "MyTestFile#HEIGHT_VALUE",
-			value1 = "920");
+			value1 = 920);
 
+		Click(locator1 = "MyTestFile#SELECT_WIDTH");
 
-	Click(locator1 = "MyTestFile#SELECT_WIDTH");
-
-	Type(
+		Type(
 			key_pageNumber = 1,
 			locator1 = "MyTestFile#SELECT_WIDTH",
-			value1 = "1");
+			value1 = 1);
 
-	
-	KeyPress(
+		KeyPress(
 			locator1 = "MyTestFile#SELECT_WIDTH",
 			value1 = "\LEFT");
 
-
-    KeyPress(
+		KeyPress(
 			locator1 = "MyTestFile#SELECT_WIDTH",
 			value1 = "\LEFT");
 
-	 KeyPress(
+		KeyPress(
 			locator1 = "MyTestFile#SELECT_WIDTH",
 			value1 = "\DELETE");
 
-	Type(
+		Type(
 			locator1 = "MyTestFile#SELECT_WIDTH",
-			value1 = "080");
+			value1 = 080);
 
-	Click(locator1 = "MyTestFile#CLICK_BUTTONAPPLY");
+		Click(locator1 = "MyTestFile#CLICK_BUTTONAPPLY");
 
-	Click(locator1 = "MyTestFile#CLOSE_SIMULATION");
+		Click(locator1 = "MyTestFile#CLOSE_SIMULATION");
 
-	Click(locator1 = "MyTestFile#BUTTON_SIMULATION");
+		Click(locator1 = "MyTestFile#BUTTON_SIMULATION");
 
-	WaitForElementPresent(locator1 = "MyTestFile#CHANGES_PRESENT");
+		WaitForElementPresent(locator1 = "MyTestFile#CHANGES_PRESENT");
+	}
 
-
-    }
+	@description = "Access Portal Global Menu and validate CONFIGURATION string at Control Panel"
+	@priority = 5
+	test ValidateConfigurationStringAtControlPanel {
+		MyTestFile.clickWithPresentElement(elementName = "Configuration");
+	}
 
 }
