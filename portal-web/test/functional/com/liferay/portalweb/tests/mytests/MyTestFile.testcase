@@ -1,0 +1,104 @@
+@component-name = "portal-web-forms-and-data-lists"
+definition {
+    property testray.main.component.name = "Forms";
+
+    setUp {
+        TestCase.setUpPortalInstance();
+
+        User.firstLoginPG();
+
+        Navigator.openURL();
+    }
+
+    tearDown {
+        User.logoutAndLoginPG(
+            userLoginEmailAddress = "test@liferay.com",
+            userLoginFullName = "Test Test");
+    }
+
+    @description = "Access Portal Global Menu and validate CONFIGURATION string at Control Panel"
+    @priority = "5"
+    test ValidateConfigurationStringAtControlPanel {
+
+
+    MyTestFile.clickWithPresentElement(elementName="Configuration");
+
+    }
+
+    @description = "Set Screen size to custom and validate values"
+    @priority = "5"
+    test SetScreenSizeAndValidateValues {
+
+
+    Click(locator1 = "MyTestFile#BUTTON_SIMULATION");
+
+    Click(locator1 = "MyTestFile#BUTTON_CUSTOM");
+
+    Click(locator1 = "MyTestFile#TODEFINE_HEIGHT");
+
+	WaitForElementPresent(locator1 = "MyTestFile#TODEFINE_HEIGHT");
+
+	Click(locator1 = "MyTestFile#TODEFINE_HEIGHT");
+
+	Type(
+			locator1 = "MyTestFile#HEIGHT_VALUE",
+			value1 = "1");
+
+    
+    KeyPress(
+			locator1 = "MyTestFile#HEIGHT_VALUE",
+			value1 = "\LEFT");
+
+
+    KeyPress(
+			locator1 = "MyTestFile#HEIGHT_VALUE",
+			value1 = "\LEFT");
+
+    
+    KeyPress(
+			locator1 = "MyTestFile#HEIGHT_VALUE",
+			value1 = "\DELETE");
+
+    Type(
+			key_pageNumber = 1,
+			locator1 = "MyTestFile#HEIGHT_VALUE",
+			value1 = "920");
+
+
+	Click(locator1 = "MyTestFile#SELECT_WIDTH");
+
+	Type(
+			key_pageNumber = 1,
+			locator1 = "MyTestFile#SELECT_WIDTH",
+			value1 = "1");
+
+	
+	KeyPress(
+			locator1 = "MyTestFile#SELECT_WIDTH",
+			value1 = "\LEFT");
+
+
+    KeyPress(
+			locator1 = "MyTestFile#SELECT_WIDTH",
+			value1 = "\LEFT");
+
+	 KeyPress(
+			locator1 = "MyTestFile#SELECT_WIDTH",
+			value1 = "\DELETE");
+
+	Type(
+			locator1 = "MyTestFile#SELECT_WIDTH",
+			value1 = "080");
+
+	Click(locator1 = "MyTestFile#CLICK_BUTTONAPPLY");
+
+	Click(locator1 = "MyTestFile#CLOSE_SIMULATION");
+
+	Click(locator1 = "MyTestFile#BUTTON_SIMULATION");
+
+	WaitForElementPresent(locator1 = "MyTestFile#CHANGES_PRESENT");
+
+
+    }
+
+}
