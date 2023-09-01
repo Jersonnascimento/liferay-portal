@@ -1,0 +1,91 @@
+definition{
+
+    macro clickWithPresentElement{
+        Click(locator1 = "MyTestFile#BUTTON_MENU");
+
+        Click(locator1 = "MyTestFile#CONTROL_PANEL");
+
+        AssertElementPresent(
+			title_name = ${elementName},
+			locator1 = "MyTestFile#APLICATION_MENU_TITLES");
+
+    }
+
+    macro constomizingScreen{
+
+    Click(locator1 = "MyTestFile#BUTTON_SIMULATION");
+
+    Click(locator1 = "MyTestFile#BUTTON_CUSTOM");
+
+    Click(locator1 = "MyTestFile#TODEFINE_HEIGHT");
+
+	WaitForElementPresent(locator1 = "MyTestFile#TODEFINE_HEIGHT");
+
+	Click(locator1 = "MyTestFile#TODEFINE_HEIGHT");
+
+	Type(
+			key_pageNumber = 1,
+			locator1 = "MyTestFile#HEIGHT_VALUE",
+			value1 = "1");
+
+    
+    KeyPress(
+			locator1 = "MyTestFile#HEIGHT_VALUE",
+			value1 = "\LEFT");
+
+
+    KeyPress(
+			locator1 = "MyTestFile#HEIGHT_VALUE",
+			value1 = "\LEFT");
+
+    
+    KeyPress(
+			locator1 = "MyTestFile#HEIGHT_VALUE",
+			value1 = "\DELETE");
+
+    Type(
+			key_pageNumber = 1,
+			locator1 = "MyTestFile#HEIGHT_VALUE",
+			value1 = "920");
+
+
+	Click(locator1 = "MyTestFile#SELECT_WIDTH");
+
+	Type(
+			key_pageNumber = 1,
+			locator1 = "MyTestFile#SELECT_WIDTH",
+			value1 = "1");
+
+	
+	KeyPress(
+			locator1 = "MyTestFile#SELECT_WIDTH",
+			value1 = "\LEFT");
+
+
+    KeyPress(
+			locator1 = "MyTestFile#SELECT_WIDTH",
+			value1 = "\LEFT");
+
+	 KeyPress(
+			locator1 = "MyTestFile#SELECT_WIDTH",
+			value1 = "\DELETE");
+
+	Type(
+			key_pageNumber = 1,
+			locator1 = "MyTestFile#SELECT_WIDTH",
+			value1 = "080");
+
+	Click(locator1 = "MyTestFile#CLICK_BUTTONAPPLY");
+
+	Click(locator1 = "MyTestFile#CLOSE_SIMULATION");
+
+	Click(locator1 = "MyTestFile#BUTTON_SIMULATION");
+
+	WaitForElementPresent(locator1 = "MyTestFile#CHANGES_PRESENT");
+	
+
+}
+
+}
+
+    
