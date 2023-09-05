@@ -1,108 +1,104 @@
 @component-name = "portal-web-forms-and-data-lists"
 definition {
-    property testray.main.component.name = "Forms";
 
-    setUp {
-        TestCase.setUpPortalInstance();
+	property testray.main.component.name = "Forms";
 
-        User.firstLoginPG();
+	setUp {
+		TestCase.setUpPortalInstance();
 
-        Navigator.openURL();
-    }
+		User.firstLoginPG();
 
-    tearDown {
-        User.logoutAndLoginPG(
-            userLoginEmailAddress = "test@liferay.com",
-            userLoginFullName = "Test Test");
-    }
+		Navigator.openURL();
+	}
 
-  @description = "Create a Form Change Language Publish And Validate"
+	tearDown {
+		User.logoutAndLoginPG(
+			userLoginEmailAddress = "test@liferay.com",
+			userLoginFullName = "Test Test");
+	}
+
+	@description = "Create a Form Change Language Publish And Validate"
 	@priority = 5
+	test CreateFormChangeLanguagePublishAndValidate {
+		FormsAdmin.addForm();
 
-    test CreateFormChangeLanguagePublishAndValidate {
+		Form.editName(formName = "Test");
 
-        FormsAdmin.addForm();
+		Form.addTextField(fieldPositionNumber = 0);
 
-        Form.editName(formName = "Test");
+		Form.editFieldLabelMetal(fieldValue = "Full Name");
 
-        Form.addTextField(fieldPositionNumber = 0);
+		Form.closeSidebar();
 
-        Form.editFieldLabelMetal(fieldValue = "Full Name");
-
-        Form.closeSidebar();
-
-        Form.gotoAddField(
+		Form.gotoAddField(
 			fieldPositionNumber = 1,
 			fieldType = "Numeric");
 
-        Form.editFieldLabelMetal(fieldValue = "Age");
+		Form.editFieldLabelMetal(fieldValue = "Age");
 
-        Form.addTranslation(localizedLanguage = "Portuguese (Brazil)");
+		Form.addTranslation(localizedLanguage = "Portuguese (Brazil)");
 
-        Form.closeSidebar();
+		Form.closeSidebar();
 
-        Click(
+		Click(
 			key_name = "Full Name",
 			locator1 = "FormFields#FIELD_TARGET_LABEL");
 
 		Form.editFieldLabelMetal(fieldValue = "Nome Completo");
 
-    
-
-        Click(
+		Click(
 			key_name = "Age",
 			locator1 = "FormFields#FIELD_TARGET_LABEL");
 
-        Form.editFieldLabelMetal(fieldValue = "Idade");
+		Form.editFieldLabelMetal(fieldValue = "Idade");
 
-        Form.save();
+		Form.save();
 
-        Form.publishForm();
+		Form.publishForm();
 
-        FormsAdminNavigator.gotoPublishedForm();
+		FormsAdminNavigator.gotoPublishedForm();
 
-        FormViewBuilder.editText(
+		FormViewBuilder.editText(
 			fieldName = "Full Name",
 			fieldValue = "UserOne");
 
-        FormViewBuilder.editText(
+		FormViewBuilder.editText(
 			fieldName = "Age",
-			fieldValue = "67");
+			fieldValue = 67);
 
-        FormPortlet.submit();
+		FormPortlet.submit();
 
-        Form.submitAgain();
+		Form.submitAgain();
 
-       FormPortlet.changeLocale(locale = "português-Brasil");
+		FormPortlet.changeLocale(locale = "português-Brasil");
 
-        FormViewBuilder.editText(
+		FormViewBuilder.editText(
 			fieldName = "Nome Completo",
 			fieldValue = "Usuário2");
 
-        FormViewBuilder.editText(
+		FormViewBuilder.editText(
 			fieldName = "Idade",
-			fieldValue = "67");
+			fieldValue = 67);
 
-        FormPortlet.submit();
+		FormPortlet.submit();
 
-        Form.submitAgain();
+		Form.submitAgain();
 
-        Navigator.openURL();
+		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
 			category = "Content & Data",
 			portlet = "Forms");
 
-        FormsAdminNavigator.gotoViewEntries();
+		FormsAdminNavigator.gotoViewEntries();
 
-        LexiconEntry.viewEntryContent(
-				rowAny = "UserOne",
-				rowEntry = "67");
+		LexiconEntry.viewEntryContent(
+			rowAny = "UserOne",
+			rowEntry = 67);
 
-        LexiconEntry.viewEntryContent(
-				rowAny = "Usuário2",
-				rowEntry = "67");
-
-    }
+		LexiconEntry.viewEntryContent(
+			rowAny = "Usuário2",
+			rowEntry = 67);
+	}
 
 }
