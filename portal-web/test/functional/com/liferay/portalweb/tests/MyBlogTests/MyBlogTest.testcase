@@ -1,0 +1,218 @@
+@component-name = "portal-lima"
+definition {
+
+	property testray.main.component.name = "Blogs";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			BlogsEntry.tearDownCP();
+
+			Blogs.tearDownConfigurationDisplaySettingsPG(
+				pageName = "Blogs Page",
+				portletName = "Blogs");
+
+			Blogs.tearDownConfigurationScopePG(
+				pageName = "Blogs Page",
+				portletName = "Blogs");
+
+			PagesAdmin.tearDownCP();
+
+			Site.tearDownCP();
+
+			Organization.tearDownCP();
+
+			JSONUser.tearDownNonAdminUsers();
+
+			ServerAdministration.tearDownMailServerSettings();
+
+			User.logoutAndLoginPG(
+            userLoginEmailAddress = "test@liferay.com",
+            userLoginFullName = "Test Test");
+		}
+	}
+
+    @description = "Can Create a Blog"
+    @priority = "5"
+    test CanCreateBlog {
+		task ("Given the Blogs Portlet is added to the page") {
+			JSONLayout.addPublicLayout(
+				groupName = "Guest",
+				layoutName = "Blogs Page");
+
+			JSONLayout.addWidgetToPublicLayout(
+				column = 1,
+				groupName = "Guest",
+				layoutName = "Blogs Page",
+				widgetName = "Blogs");
+
+			Navigator.gotoPage(pageName = "Blogs Page");
+		}
+
+		task ("When the user adds a Blog Entry") {
+			BlogsNavigator.gotoAddEntry();
+
+			BlogsEntry.addTitle(entryTitle = "Jerson Nascimento");
+
+			BlogsEntry.addContent(entryContent = "Jerson Francisco");
+
+			PortletEntry.publish();
+		}
+
+		task ("Then the Blog Entry should display on the page") {
+			BlogsEntry.viewEntryPG(
+				entryContent = "Jerson Francisco",
+				entryTitle = "Jerson Nascimento");
+		}
+	}
+
+	@description = "Can Edit Blog"
+    @priority = "5"
+    test CanEditBlog {
+		task ("Given the Blogs Portlet is added to the page") {
+			JSONLayout.addPublicLayout(
+				groupName = "Guest",
+				layoutName = "Blogs Page");
+
+			JSONLayout.addWidgetToPublicLayout(
+				column = 1,
+				groupName = "Guest",
+				layoutName = "Blogs Page",
+				widgetName = "Blogs");
+
+			Navigator.gotoPage(pageName = "Blogs Page");
+		}
+		
+		task ("And the user adds a Blogs Entry") {
+			BlogsNavigator.gotoAddEntry();
+
+			BlogsEntry.addTitle(entryTitle = "First Title");
+
+			BlogsEntry.addContent(entryContent = "First content");
+
+			PortletEntry.publish();
+		}
+
+		task("When the User edits the blog Entries") {
+			Navigator.gotoPage(pageName = "Blogs Page");	
+
+			Blogs.editEntryPG(
+			entryContent = "First content",
+			entryContentEdit = "Content edited",
+			entryTitle = "First Title",
+			entryTitleEdit = "Title edited");
+		}
+
+		task("Then the blog entry should be displayed on the page") {
+			BlogsEntry.viewEntryPG(
+			entryContent = "Content edited",
+			entryTitle = "Title edited");
+		}
+	}
+
+	@description = "Can Delete a Blog"
+    @priority = "5"
+    test CanDeleteBlog {
+      	task ("Given the Blogs Portlet is added to the page") {
+			JSONLayout.addPublicLayout(
+				groupName = "Guest",
+				layoutName = "Blogs Page");
+
+			JSONLayout.addWidgetToPublicLayout(
+				column = 1,
+				groupName = "Guest",
+				layoutName = "Blogs Page",
+				widgetName = "Blogs");
+		}
+      	task ("And a 2 Blog Entries exists") {
+			Navigator.gotoPage(pageName = "Blogs Page");
+
+   			Blogs.addEntry(
+			entryContent = "New content entry1",
+			entryTitle = "New text entry1");
+
+			Blogs.addEntry(
+			entryContent = "Second content entry2",
+			entryTitle = "Second text entry2");
+	  	}
+    
+      	task ("When the User deletes Blog Entry 1") {
+			Navigator.gotoPage(pageName = "Blogs Page");
+	
+			BlogsEntry.moveToRecycleBinPG(
+			entryContent = "New content entry1",
+			entryTitle = "New text entry1");
+	  	}
+	
+      	task ("Then Blog Entry 1 should not exist") {
+			BlogsEntry.viewNoPG(entryTitle = "New text entry1");
+	  	}
+	
+	  	task ("And Blog Entry 2 should exist") {
+			BlogsEntry.viewEntryPG(
+			entryContent = "Second content entry2",
+			entryTitle = "Second text entry2");
+	  	}
+	
+	}
+
+	@description = "Can Searc Blogs"
+	@priority = "5"
+	test CanSearchBlogs {
+      task ("Given the Blogs Portlet is added to the page") {
+		JSONLayout.addPublicLayout(
+				groupName = "Guest",
+				layoutName = "Blogs Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+				column = 1,
+				groupName = "Guest",
+				layoutName = "Blogs Page",
+				widgetName = "Blogs");
+
+	  }
+
+	  task ("And a 2 Blog Entries exists") {
+			Navigator.gotoPage(pageName = "Blogs Page");
+
+   			Blogs.addEntry(
+			entryContent = "Search1",
+			entryTitle = "Search1");
+
+			Blogs.addEntry(
+			entryContent = "Second Entry Test2",
+			entryTitle = "Entry Two");
+	  	}
+
+	  task ("When the User searches for Blog Entry 1") {
+		    SearchPortlets.searchEmbedded(searchTerm = "Search1");	
+	  }
+
+	  task ("Then Blog Entry 1 should display") {
+            SearchResultPortlet.viewSearchResults(
+			searchAssetSummary = "Search1",
+			searchAssetTitle = "Search1",
+			searchAssetType = "Blogs Entry");
+
+	   }
+
+	  task ("And Blog Entry 2 should not display") {
+			SearchResultPortlet.viewSearchResultNotPresent(
+			searchAssetTitle = "Entry Two",
+			searchAssetType = "Blogs Entry");
+	  }
+	         
+	}
+	
+
+}
