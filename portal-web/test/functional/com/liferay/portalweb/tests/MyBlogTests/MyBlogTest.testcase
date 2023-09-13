@@ -7,6 +7,18 @@ definition {
 		TestCase.setUpPortalInstance();
 
 		User.firstLoginPG();
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Blogs Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = 1,
+			groupName = "Guest",
+			layoutName = "Blogs Page",
+			widgetName = "Blogs");
+
+		Navigator.gotoPage(pageName = "Blogs Page");
 	}
 
 	tearDown {
@@ -14,51 +26,16 @@ definition {
 
 		if (${testLiferayVirtualInstance} == "true") {
 			PortalInstances.tearDownCP();
-		}
-		else {
-			BlogsEntry.tearDownCP();
 
-			Blogs.tearDownConfigurationDisplaySettingsPG(
-				pageName = "Blogs Page",
-				portletName = "Blogs");
+			PagesAdmin.openPagesAdmin(siteURLKey = "guest");
 
-			Blogs.tearDownConfigurationScopePG(
-				pageName = "Blogs Page",
-				portletName = "Blogs");
-
-			PagesAdmin.tearDownCP();
-
-			Site.tearDownCP();
-
-			Organization.tearDownCP();
-
-			JSONUser.tearDownNonAdminUsers();
-
-			ServerAdministration.tearDownMailServerSettings();
-
-			User.logoutAndLoginPG(
-            userLoginEmailAddress = "test@liferay.com",
-            userLoginFullName = "Test Test");
+			PagesAdmin.deletePage(pageName = "Blogs Page");
 		}
 	}
 
-    @description = "Can Create a Blog"
-    @priority = "5"
-    test CanCreateBlog {
-		task ("Given the Blogs Portlet is added to the page") {
-			JSONLayout.addPublicLayout(
-				groupName = "Guest",
-				layoutName = "Blogs Page");
-
-			JSONLayout.addWidgetToPublicLayout(
-				column = 1,
-				groupName = "Guest",
-				layoutName = "Blogs Page",
-				widgetName = "Blogs");
-
-			Navigator.gotoPage(pageName = "Blogs Page");
-		}
-
+	@description = "Can Create a Blog"
+	@priority = 5
+	test CanCreateBlog {
 		task ("When the user adds a Blog Entry") {
 			BlogsNavigator.gotoAddEntry();
 
@@ -76,23 +53,43 @@ definition {
 		}
 	}
 
-	@description = "Can Edit Blog"
-    @priority = "5"
-    test CanEditBlog {
-		task ("Given the Blogs Portlet is added to the page") {
-			JSONLayout.addPublicLayout(
-				groupName = "Guest",
-				layoutName = "Blogs Page");
-
-			JSONLayout.addWidgetToPublicLayout(
-				column = 1,
-				groupName = "Guest",
-				layoutName = "Blogs Page",
-				widgetName = "Blogs");
-
+	@description = "Can Delete a Blog"
+	@priority = 5
+	test CanDeleteBlog {
+		task ("And a 2 Blog Entries exists") {
 			Navigator.gotoPage(pageName = "Blogs Page");
+
+			Blogs.addEntry(
+				entryContent = "New content entry1",
+				entryTitle = "New text entry1");
+
+			Blogs.addEntry(
+				entryContent = "Second content entry2",
+				entryTitle = "Second text entry2");
 		}
-		
+
+		task ("When the User deletes Blog Entry 1") {
+			Navigator.gotoPage(pageName = "Blogs Page");
+
+			BlogsEntry.moveToRecycleBinPG(
+				entryContent = "New content entry1",
+				entryTitle = "New text entry1");
+		}
+
+		task ("Then Blog Entry 1 should not exist") {
+			BlogsEntry.viewNoPG(entryTitle = "New text entry1");
+		}
+
+		task ("And Blog Entry 2 should exist") {
+			BlogsEntry.viewEntryPG(
+				entryContent = "Second content entry2",
+				entryTitle = "Second text entry2");
+		}
+	}
+
+	@description = "Can Edit Blog"
+	@priority = 5
+	test CanEditBlog {
 		task ("And the user adds a Blogs Entry") {
 			BlogsNavigator.gotoAddEntry();
 
@@ -103,116 +100,54 @@ definition {
 			PortletEntry.publish();
 		}
 
-		task("When the User edits the blog Entries") {
-			Navigator.gotoPage(pageName = "Blogs Page");	
+		task ("When the User edits the blog Entries") {
+			Navigator.gotoPage(pageName = "Blogs Page");
 
 			Blogs.editEntryPG(
-			entryContent = "First content",
-			entryContentEdit = "Content edited",
-			entryTitle = "First Title",
-			entryTitleEdit = "Title edited");
+				entryContent = "First content",
+				entryContentEdit = "Content edited",
+				entryTitle = "First Title",
+				entryTitleEdit = "Title edited");
 		}
 
-		task("Then the blog entry should be displayed on the page") {
+		task ("Then the blog entry should be displayed on the page") {
 			BlogsEntry.viewEntryPG(
-			entryContent = "Content edited",
-			entryTitle = "Title edited");
+				entryContent = "Content edited",
+				entryTitle = "Title edited");
 		}
-	}
-
-	@description = "Can Delete a Blog"
-    @priority = "5"
-    test CanDeleteBlog {
-      	task ("Given the Blogs Portlet is added to the page") {
-			JSONLayout.addPublicLayout(
-				groupName = "Guest",
-				layoutName = "Blogs Page");
-
-			JSONLayout.addWidgetToPublicLayout(
-				column = 1,
-				groupName = "Guest",
-				layoutName = "Blogs Page",
-				widgetName = "Blogs");
-		}
-      	task ("And a 2 Blog Entries exists") {
-			Navigator.gotoPage(pageName = "Blogs Page");
-
-   			Blogs.addEntry(
-			entryContent = "New content entry1",
-			entryTitle = "New text entry1");
-
-			Blogs.addEntry(
-			entryContent = "Second content entry2",
-			entryTitle = "Second text entry2");
-	  	}
-    
-      	task ("When the User deletes Blog Entry 1") {
-			Navigator.gotoPage(pageName = "Blogs Page");
-	
-			BlogsEntry.moveToRecycleBinPG(
-			entryContent = "New content entry1",
-			entryTitle = "New text entry1");
-	  	}
-	
-      	task ("Then Blog Entry 1 should not exist") {
-			BlogsEntry.viewNoPG(entryTitle = "New text entry1");
-	  	}
-	
-	  	task ("And Blog Entry 2 should exist") {
-			BlogsEntry.viewEntryPG(
-			entryContent = "Second content entry2",
-			entryTitle = "Second text entry2");
-	  	}
-	
 	}
 
 	@description = "Can Searc Blogs"
-	@priority = "5"
+	@priority = 5
 	test CanSearchBlogs {
-      task ("Given the Blogs Portlet is added to the page") {
-		JSONLayout.addPublicLayout(
-				groupName = "Guest",
-				layoutName = "Blogs Page");
-
-		JSONLayout.addWidgetToPublicLayout(
-				column = 1,
-				groupName = "Guest",
-				layoutName = "Blogs Page",
-				widgetName = "Blogs");
-
-	  }
-
-	  task ("And a 2 Blog Entries exists") {
+		task ("And a 2 Blog Entries exists") {
 			Navigator.gotoPage(pageName = "Blogs Page");
 
-   			Blogs.addEntry(
-			entryContent = "Search1",
-			entryTitle = "Search1");
+			Blogs.addEntry(
+				entryContent = "Search1",
+				entryTitle = "Search1");
 
 			Blogs.addEntry(
-			entryContent = "Second Entry Test2",
-			entryTitle = "Entry Two");
-	  	}
+				entryContent = "Second Entry Test2",
+				entryTitle = "Entry Two");
+		}
 
-	  task ("When the User searches for Blog Entry 1") {
-		    SearchPortlets.searchEmbedded(searchTerm = "Search1");	
-	  }
+		task ("When the User searches for Blog Entry 1") {
+			SearchPortlets.searchEmbedded(searchTerm = "Search1");
+		}
 
-	  task ("Then Blog Entry 1 should display") {
-            SearchResultPortlet.viewSearchResults(
-			searchAssetSummary = "Search1",
-			searchAssetTitle = "Search1",
-			searchAssetType = "Blogs Entry");
+		task ("Then Blog Entry 1 should display") {
+			SearchResultPortlet.viewSearchResults(
+				searchAssetSummary = "Search1",
+				searchAssetTitle = "Search1",
+				searchAssetType = "Blogs Entry");
+		}
 
-	   }
-
-	  task ("And Blog Entry 2 should not display") {
+		task ("And Blog Entry 2 should not display") {
 			SearchResultPortlet.viewSearchResultNotPresent(
-			searchAssetTitle = "Entry Two",
-			searchAssetType = "Blogs Entry");
-	  }
-	         
+				searchAssetTitle = "Entry Two",
+				searchAssetType = "Blogs Entry");
+		}
 	}
-	
 
 }
