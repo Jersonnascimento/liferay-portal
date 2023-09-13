@@ -1,0 +1,77 @@
+@component-name = "portal-document-management"
+definition {
+    property testray.main.component.name = "Document Management";
+
+    
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Documents and Media Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = 1,
+			groupName = "Guest",
+			layoutName = "Documents and Media Page",
+			widgetName = "Documents and Media");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		DMDocument.enableActionsMenuOnPortlet();
+	}
+
+     tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			DMDocument.tearDownCP();
+
+			DMFolder.tearDownCP();
+
+			User.logoutPG();
+		}
+	}
+	
+
+    @description = "Can Create a Documents and Media"
+    @priority = "5"
+    test CanCreateDM {
+        task ("When the user create a Documents and Media (Upload the file)") {
+		JSONDocument.addFileWithUploadedFile(
+				dmDocumentTitle = "Document_PG",
+				groupName = "Guest",
+				mimeType = "image/jpeg",
+				sourceFileName = "Document_1.jpg");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+        }
+
+        
+    }
+
+    @description = "Can Edit a Documents and Media"
+    @priority = "5"
+    test CanEditDM {
+
+
+    }
+    @description = "Can Delete a Documents and Media"
+    @priority = "5"
+    test CanDeleteDM {
+
+
+    }
+    @description = "Can Download a Documents and Media"
+    @priority = "5"
+    test CanDownloadDM {
+
+	
+    }
+}
+
