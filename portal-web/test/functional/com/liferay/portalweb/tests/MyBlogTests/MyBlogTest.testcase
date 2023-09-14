@@ -27,6 +27,8 @@ definition {
 		if (${testLiferayVirtualInstance} == "true") {
 			PortalInstances.tearDownCP();
 
+			BlogsEntry.tearDownCP();
+
 			PagesAdmin.openPagesAdmin(siteURLKey = "guest");
 
 			PagesAdmin.deletePage(pageName = "Blogs Page");
