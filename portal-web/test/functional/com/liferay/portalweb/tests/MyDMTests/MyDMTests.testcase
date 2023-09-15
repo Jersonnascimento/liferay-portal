@@ -1,21 +1,14 @@
 @component-name = "portal-document-management"
 definition {
-    property testray.main.component.name = "Document Management";
 
-<<<<<<< Updated upstream
-    
+	property testray.main.component.name = "Document Management";
+
 	setUp {
 		TestCase.setUpPortalInstance();
 
 		User.firstLoginPG();
-=======
-	setUp {
-        TestCase.setUpPortalInstance();
 
-        User.firstLoginPG();
-
-        Navigator.openURL();
->>>>>>> Stashed changes
+		Navigator.openURL();
 
 		JSONLayout.addPublicLayout(
 			groupName = "Guest",
@@ -27,146 +20,73 @@ definition {
 			layoutName = "Documents and Media Page",
 			widgetName = "Documents and Media");
 
-<<<<<<< Updated upstream
 		Navigator.gotoPage(pageName = "Documents and Media Page");
 
 		DMDocument.enableActionsMenuOnPortlet();
 	}
 
-     tearDown {
-		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
-
-		if (${testLiferayVirtualInstance} == "true") {
-			PortalInstances.tearDownCP();
-		}
-		else {
-			DMDocument.tearDownCP();
-
-			DMFolder.tearDownCP();
-
-			User.logoutPG();
-		}
-	}
-	
-
-    @description = "Can Create a Documents and Media"
-    @priority = "5"
-    test CanCreateDM {
-        task ("When the user create a Documents and Media (Upload the file)") {
-=======
-			Navigator.gotoPage(pageName = "Documents and Media Page");
-
-			DMDocument.enableActionsMenuOnPortlet();
-     }
-
-     tearDown {
+	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
-			
-		 }
-		 	DMDocument.tearDownCP();
+		}
 
-			PagesAdmin.openPagesAdmin(siteURLKey = "guest");
+		DMDocument.tearDownCP();
 
-			PagesAdmin.deletePage(pageName = "Documents and Media Page");
-     }
-    @description = "Can Create a Documents and Media"
-    @priority = "5"
-    test CanCreateDM {
-        task ("Given the DM Portlet has been added to the page") {
+		PagesAdmin.openPagesAdmin(siteURLKey = "guest");
+
+		PagesAdmin.deletePage(pageName = "Documents and Media Page");
+	}
+
+	@description = "Can Create a Documents and Media"
+	@priority = 5
+	test CanCreateDM {
+		task ("Given the DM Portlet has been added to the page") {
 			DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "Guest");
 		}
 
-        task ("When the user create a Documents and Media(Upload the file)") {
-		   DMNavigator.gotoAddDocumentTypeCP(dmDocumentTypeName = "File Upload");
+		task ("When the user create a Documents and Media(Upload the file)") {
+			DMNavigator.gotoAddDocumentTypeCP(dmDocumentTypeName = "File Upload");
 
 			UploadDependencyFile.uploadFile(fileName = "Document_1.jpg");
 
 			PortletEntry.inputTitle(title = "Document_1.pdf");
 
 			PortletEntry.publish();
-		}	
+		}
 
 		task ("Then the Documents and Media should display on the page") {
 			Navigator.gotoPage(pageName = "Documents and Media Page");
 
 			DMDocument.viewPG(dmDocumentTitle = "Document_1.pdf");
-		}	 
-    }
-    @description = "Can Edit a Documents and Media"
-    @priority = "5"
-    test CanEditDM {
-		task ("And the user create a Documents and Media (Upload the file)") {
->>>>>>> Stashed changes
-		JSONDocument.addFileWithUploadedFile(
+		}
+	}
+
+	@description = "Can Delete a Documents and Media"
+	@priority = 5
+	test CanDeleteDM {
+		task ("Given create 2 Documents and Media (Upload the file)") {
+			JSONDocument.addFileWithUploadedFile(
+				dmDocumentTitle = "Title_DM",
+				groupName = "Guest",
+				mimeType = "image/jpeg",
+				sourceFileName = "Document_1.jpg");
+
+			JSONDocument.addFileWithUploadedFile(
 				dmDocumentTitle = "Document_PG",
 				groupName = "Guest",
 				mimeType = "image/jpeg",
-<<<<<<< Updated upstream
-				sourceFileName = "Document_1.jpg");
-
-		Navigator.gotoPage(pageName = "Documents and Media Page");
-        }
-
-        
-    }
-
-    @description = "Can Edit a Documents and Media"
-    @priority = "5"
-    test CanEditDM {
-
-
-=======
-				sourceFileName = "Document_1.jpg");      
+				sourceFileName = "Document_2.jpg");
 		}
-		task ("When the User edits the Documents and Media (Change DM name and the file)") {
+
+		task ("And navigate to the page (Documents and Media Page)") {
 			Navigator.gotoPage(pageName = "Documents and Media Page");
-
-			 DMDocument.editPG(
-			 dmDocumentFileEdit = "Document_1.jpg",
-             dmDocumentFileNameEdit = "Document_2.jpg",
-             dmDocumentTitle = "Document_PG",
-             dmDocumentTitleEdit = "DM Document Title Version 2");
-		}
-		task ("Then the Documents and Media should be edited") {
-			Navigator.gotoPage(pageName = "Documents and Media Page");
-
-			DMDocument.viewPG(
-			dmDocumentFileName = "Document_2.jpg",
-			dmDocumentTitle = "DM Document Title Version 2");  
-		}					 
->>>>>>> Stashed changes
-    }
-    @description = "Can Delete a Documents and Media"
-    @priority = "5"
-    test CanDeleteDM {
-<<<<<<< Updated upstream
-
-
-=======
-		task ("Given create 2 Documents and Media (Upload the file)") {
-			JSONDocument.addFileWithUploadedFile(
-							dmDocumentTitle = "Title_DM",
-							groupName = "Guest",
-							mimeType = "image/jpeg",
-							sourceFileName = "Document_1.jpg");
-
-				JSONDocument.addFileWithUploadedFile(
-							dmDocumentTitle = "Document_PG",
-							groupName = "Guest",
-							mimeType = "image/jpeg",
-							sourceFileName = "Document_2.jpg");				
 		}
 
-		task ("And navigate to the page (Documents and Media Page)"){
-            Navigator.gotoPage(pageName = "Documents and Media Page");
-        }
-
-		task ("When the User delete a document and media"){
-	        DMDocument.deletePG(dmDocumentTitle = "Document_PG");
-	    }
+		task ("When the User delete a document and media") {
+			DMDocument.deletePG(dmDocumentTitle = "Document_PG");
+		}
 
 		task ("Then Document_PG should not exist") {
 			DMDocument.cannotViewCP(dmDocumentTitle = "Document_PG");
@@ -176,34 +96,31 @@ definition {
 			Navigator.gotoPage(pageName = "Documents and Media Page");
 
 			DMDocument.viewPG(
-			dmDocumentFileName = "Document_1.jpg",
-			dmDocumentTitle = "Title_DM");
+				dmDocumentFileName = "Document_1.jpg",
+				dmDocumentTitle = "Title_DM");
 		}
->>>>>>> Stashed changes
-    }
-    @description = "Can Download a Documents and Media"
-    @priority = "5"
-    test CanDownloadDM {
-<<<<<<< Updated upstream
+	}
 
-=======
+	@description = "Can Download a Documents and Media"
+	@priority = 5
+	test CanDownloadDM {
 		task ("When create 2 Documents and Media (Upload the file)") {
 			JSONDocument.addFileWithUploadedFile(
-							dmDocumentTitle = "Title_DM",
-							groupName = "Guest",
-							mimeType = "image/jpeg",
-							sourceFileName = "Document_1.jpg");
+				dmDocumentTitle = "Title_DM",
+				groupName = "Guest",
+				mimeType = "image/jpeg",
+				sourceFileName = "Document_1.jpg");
 
 			JSONDocument.addFileWithUploadedFile(
-							dmDocumentTitle = "Document_PG",
-							groupName = "Guest",
-							mimeType = "image/jpeg",
-							sourceFileName = "Document_2.jpg");		
+				dmDocumentTitle = "Document_PG",
+				groupName = "Guest",
+				mimeType = "image/jpeg",
+				sourceFileName = "Document_2.jpg");
 
-			Navigator.gotoPage(pageName = "Documents and Media Page");	
+			Navigator.gotoPage(pageName = "Documents and Media Page");
 		}
 
-        task ("And the user download document from Title_DM") {
+		task ("And the user download document from Title_DM") {
 			DMDocument.downloadPG(dmDocumentTitle = "Title_DM");
 		}
 
@@ -214,8 +131,36 @@ definition {
 		task ("And Document_PG file should not be downloaded") {
 			DMDocument.assertNoFileNameFromTempFolder(fileName = "Document_2.jpg");
 		}
->>>>>>> Stashed changes
-	
-    }
-}
+	}
 
+	@description = "Can Edit a Documents and Media"
+	@priority = 5
+	test CanEditDM {
+		task ("And the user create a Documents and Media (Upload the file)") {
+			JSONDocument.addFileWithUploadedFile(
+				dmDocumentTitle = "Document_PG",
+				groupName = "Guest",
+				mimeType = "image/jpeg",
+				sourceFileName = "Document_1.jpg");
+		}
+
+		task ("When the User edits the Documents and Media (Change DM name and the file)") {
+			Navigator.gotoPage(pageName = "Documents and Media Page");
+
+			DMDocument.editPG(
+				dmDocumentFileEdit = "Document_1.jpg",
+				dmDocumentFileNameEdit = "Document_2.jpg",
+				dmDocumentTitle = "Document_PG",
+				dmDocumentTitleEdit = "DM Document Title Version 2");
+		}
+
+		task ("Then the Documents and Media should be edited") {
+			Navigator.gotoPage(pageName = "Documents and Media Page");
+
+			DMDocument.viewPG(
+				dmDocumentFileName = "Document_2.jpg",
+				dmDocumentTitle = "DM Document Title Version 2");
+		}
+	}
+
+}
