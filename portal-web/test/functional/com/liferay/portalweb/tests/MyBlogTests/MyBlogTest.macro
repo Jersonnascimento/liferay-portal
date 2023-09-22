@@ -1,0 +1,35 @@
+definition {
+
+macro CreateAndAddWidgetPage {
+       Click(locator1 = "MyBlogTest#OPEN_HOME");
+
+       Click(locator1 = "MyBlogTest#OPEN_PAGE_TREE");
+
+       Click(locator1 = "MyBlogTest#CLICK_BUTTON_MORE");
+
+       Click(locator1 = "MyBlogTest#CLICK_ADD_PAGE");
+
+       Click(locator1 = "MyBlogTest#ADD_WIDGET");
+
+       SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+       Type(
+            locator1 = "MyBlogTest#ADD_PAGE_NAME",
+            value1 = "Blogs Page");
+
+      Click(locator1 = "MyBlogTest#ADD_PAGE");
+
+      Navigator.gotoPage(pageName = "Blogs Page");
+
+      Click(locator1 = "MyBlogTest#CLICK_ADD");
+
+      Click(locator1 = "MyBlogTest#CLICK_COLLABORATION");
+
+      Click.javaScriptClick(
+          key_type = "Blog",
+          key_number = "1",
+          locator1 = "MyBlogTest#ADD_BLOG");
+
+}
+    
+}

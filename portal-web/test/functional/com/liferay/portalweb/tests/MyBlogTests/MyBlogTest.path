@@ -1,0 +1,73 @@
+<html>
+<head>
+<title>MyBlogTest</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">MyBlogTest</td></tr>
+</thead>
+
+<tbody>
+
+<tr>
+	<td>OPEN_HOME</td>
+	<td>//button[@class='btn btn-monospaced btn-sm lfr-portal-tooltip product-menu-toast-toggle product-menu-toggle sidenav-toggler']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>OPEN_PAGE_TREE</td>
+	<td>//button[contains(.,'Page Tree')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CLICK_BUTTON_MORE</td>
+	<td>//button[@class='dropdown-toggle add-page-button btn btn-monospaced btn-sm btn-unstyled']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CLICK_ADD_PAGE</td>
+	<td>//button[contains(.,'Add Page')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_WIDGET</td>
+	<td>xpath=(//span[@class='card-row'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_PAGE_NAME</td>
+	<td>xpath=(//input[@class='field form-control'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_PAGE</td>
+	<td>//button[@class='btn  btn-primary']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CLICK_ADD</td>
+	<td>//button[@class='btn btn-monospaced btn-sm btn-unstyled lfr-portal-tooltip product-menu-toggle sidenav-toggler']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CLICK_COLLABORATION</td>
+	<td>xpath=(//button[@class='panel-header panel-header-link collapse-icon collapse-icon-middle collapsed btn btn-unstyled'])[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CLICK_HOME</td>
+	<td>xpath=(//a[@class='flex-grow-1 text-decoration-none text-truncate-inline'])[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_BLOG</td>
+	<td>xpath=(//li[contains(@class,'sidebar-body__add-panel__tab-item') and contains(.,'${key_type}')]//button[@aria-label="Add Content"])[${key_number}]</td>
+	<td></td>
+</tr>
+</tbody>
+
+</table>
+</body>
+</html>
