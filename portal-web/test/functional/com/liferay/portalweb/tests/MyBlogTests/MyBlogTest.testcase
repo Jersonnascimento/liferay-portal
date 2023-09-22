@@ -8,8 +8,8 @@ definition {
 
 		User.firstLoginPG();
 
-	    MyBlogTest.CreateAndAddWidgetPage();
-		
+		MyBlogTest.CreateAndAddWidgetPage();
+
 		Navigator.gotoPage(pageName = "Blogs Page");
 	}
 
@@ -31,7 +31,6 @@ definition {
 	@priority = 5
 	test CanCreateBlog {
 		task ("When the user adds a Blog Entry") {
-
 			BlogsNavigator.gotoAddEntry();
 
 			BlogsEntry.addTitle(entryTitle = "Jerson Nascimento");
@@ -46,7 +45,7 @@ definition {
 				entryContent = "Jerson Francisco",
 				entryTitle = "Jerson Nascimento");
 		}
-	 }
+	}
 
 	@description = "Can Delete a Blog"
 	@priority = 5
